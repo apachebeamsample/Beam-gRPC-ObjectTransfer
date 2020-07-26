@@ -9,10 +9,11 @@ public class StudentClient {
 
     //private static final Logger LOG = LoggerFactory.getLogger(StudentClient.class);
     public static ManagedChannel getChannelInstance(){
-
+        System.out.println("Eastablishing connection with server");
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
                 .usePlaintext()
                 .build();
+        System.out.println("Connection successful");
         return channel;
     }
 }

@@ -16,6 +16,7 @@ public class StudentServiceImpl extends StudentServiceGrpc.StudentServiceImplBas
     @Override
     public void getStudentList(Empty request,
                                StreamObserver<StudentObjectResponse> responseObserver) {
+        System.out.println("Request received");
         List<Student> studentlist = new ArrayList<>();
         Student student1 = Student.newBuilder().setFname("Somanshu").setLname("Shekhar").setRoll(10).setBranch("CSE").setZipcode(1234).build();
         Student student2 = Student.newBuilder().setFname("Somanshu1").setLname("Shekhar1").setRoll(11).setBranch("ETC").setZipcode(12345).build();
@@ -36,6 +37,7 @@ public class StudentServiceImpl extends StudentServiceGrpc.StudentServiceImplBas
        // students.forEach(student -> {System.out.println(student);} );
         responseObserver.onNext(students);
         responseObserver.onCompleted();
+        System.out.println("Response sent successfully");
     }
 
 }

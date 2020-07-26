@@ -21,6 +21,7 @@ public class PipelineMain {
 
         ManagedChannel channel=StudentClient.getChannelInstance();
         StudentServiceGrpc.StudentServiceBlockingStub stub=StudentServiceGrpc.newBlockingStub(channel);
+        System.out.println("Sending request to server");
         StudentObjectResponse response= stub.getStudentList(Empty.newBuilder().build());
       // response.getStudentsList().forEach(student -> {System.out.println(student.getName());});
         List<Student> st= new ArrayList<>();
@@ -37,7 +38,7 @@ public class PipelineMain {
 
         Pipeline pipeline = Pipeline.create(PipelineOptionsFactory.fromArgs().withValidation().create());
         PCollection<Student> studentCollection=pipeline.apply(Create.of(stList));
-
+        System.out.println("Applying transforms");
         PCollectionTuple allTuples=
                 studentCollection
                 .apply(MapElements.via(new SimpleFunction<Student,String>() {
@@ -65,7 +66,7 @@ public class PipelineMain {
         allTuples.get(CSEstudents).apply(TextIO.write().to("./src/main/output/CSEstudents").withSuffix(".csv").withoutSharding());
         allTuples.get(ETCstudents).apply(TextIO.write().to("./src/main/output/ETCstudents").withSuffix(".csv").withoutSharding());
         allTuples.get(MECHstudents).apply(TextIO.write().to("./src/main/output/MECHstudents").withSuffix(".csv").withoutSharding());
-
+        System.out.println("Process completed, please check the output folder");
         pipeline.run().waitUntilFinish();
 
     }
